@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Heart, User, Menu, X, Globe, ChevronDown } from 'lucide-react';
+import { Search, ShoppingBag, Heart, User, Menu, X, Globe, ChevronDown, Shield } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAdmin } from '../context/AdminContext';
 import { categories, subcategories } from '../data/products';
 
 const Header: React.FC = () => {
@@ -16,6 +17,7 @@ const Header: React.FC = () => {
   const { state } = useCart();
   const { user, logout } = useAuth();
   const { wishlist } = useWishlist();
+  const { isAdmin } = useAdmin();
   const navigate = useNavigate();
 
   const handleAccountClick = () => {
@@ -46,6 +48,15 @@ const Header: React.FC = () => {
               Free shipping on orders over €150
             </div>
             <div className="flex items-center space-x-4">
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="flex items-center space-x-1 text-red-600 hover:text-red-800 transition-colors"
+                >
+                  <Shield className="h-4 w-4" />
+                  <span>Admin</span>
+                </Link>
+              )}
               <div className="relative">
                 <button
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
